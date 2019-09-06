@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .btn_disable {
+            background-color:#d4d4d4;/* 设置按钮背景颜色为灰色 */
+            border-color:#d4d4d4;/* 边框线颜色应与背景颜色一致 */
+            color:#fff;/* 设置字体颜色为白色 */
+        }
+        .jieping-background-color{
+            background-color:rgba(0, 0, 0,0.5)!important;
+        }
+        canvas{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            opacity: 1;
+            transform: scale(0.8);
+            z-index: 99999999;
+            transition: transform 0.3s cubic-bezier(0.42, 0, 0.58, 1) 0s, opacity 0.3s cubic-bezier(0.42, 0, 0.58, 1) 0s, -webkit-transform 0.3s cubic-bezier(0.42, 0, 0.58, 1) 0s;
+        }
+        #cavsElem{
+            position: static;
+           /* top: 0px;
+            left: 0px;*/
+            opacity: 1;
+            z-index: 99999999;
+            transform: translateX(0px);
+            transition: transform 0.3s cubic-bezier(0.42, 0, 0.58, 1) 0s, opacity 0.3s cubic-bezier(0.42, 0, 0.58, 1) 0s, -webkit-transform 0.3s cubic-bezier(0.42, 0, 0.58, 1) 0s;
+
+
+        }
+
+        .table{border-collapse:collapse; font-size:13px; height:24px;line-height:24px; color:#09F; text-align:center;}
+        .table tr th{background:#36F; color:#FFF; font-size:13px;height:24px; line-height:24px;}
+        .table tr th.th_border{border-right:solid 1px #FFF;border-left:solid 1px #36F;}
+        .table tr td{border:solid 1px #36F;}
+
+        .alert-text{
+            position:absolute;
+            width:200px;
+            height:30px;
+            background-color: white;
+            color:black;top:0px;
+            right:3px;
+            border:1px solid #F0F0F0;
+            text-aign:center;
+            display:none;
+            border-radius: 3px;;
+        }
+
+    </style>
+</head>
+<body style="position: relative">
+<button  id="jieping-btn"  onclick="jiepin()">截屏</button>
+<button class="copy_btn" onclick="fuz()" disabled="disabled">复制图片地址</button>
+<button class="save_picture" onclick="save_picture()"  disabled="disabled">保存当前截图</button>
+<button id="delete_picture-btn" onclick="delete_picture()" disabled="disabled">删除截图</button>
+<div class="alert-text" >这是一条简单的提示消息</div>
+<!--style="opacity: 0" -->
+<input id="inputText" type="text" value="http://www.baidu.com" style="opacity: 0"/>
+<!--background: #f5da55-->
+<div id="capture" style="padding: 10px; background: #f5da55;">
+    <h4 style="color: #000; ">Hello world!</h4>
+   <!-- <img src="./resources/imgs/icon_quanping.png">
+    <img src="./resources/imgs/icon_tubiao.png">
+    <img src="./resources/imgs/icon_qita.png">
+    <img src="./resources/imgs/icon_fanhui.png">
+    <img src="./resources/imgs/icon_bujianku.png">
+    <img src="./resources/imgs/icon_bianji_hong.png">
+    <img src="./resources/imgs/icon_bianji.png">
+    <img src="./resources/imgs/icon_baocun.png">-->
+    <br/>
+
+    <canvas id="cavsElem">
+       <!-- 你的浏览器不支持canvas，请升级浏览器-->
+    </canvas>
+    <!--table表格-->
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+    </table>
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+    </table>
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+    </table>
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+    </table>
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+    <td>内容二</td>
+    <td>内容三</td>
+    </tr>
+    <tr>
+        <td>内容一</td>
+        <td>内容二</td>
+        <td>内容三</td>
+    </tr>
+    </table>
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+    </table>
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+    </table>
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+    </table>
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+    </table>
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+    </table>
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+    </table>
+    <table width="200" border="0" class="table"cellpadding="0" cellspacing="0">
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+        <tr>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+        </tr>
+    </table>
+
+    结尾部分o
+</div>
+
+</body>
+</html>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<!--htmlscanvas versiob problem-->
+<!--<script src="./html2canvas.js"></script>-->
+<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+<script src="https://cdn.bootcss.com/zclip/1.1.2/jquery.zclip.js"></script>
+<script>
+    //截屏图片地址
+    var imgd = "";
+    var imgData="";
+    /**
+     *
+     * 截屏
+     * */
+    function jiepin() {
+        const w = $('#capture').outerWidth(),
+               h = $('#capture').outerHeight();
+        html2canvas(document.getElementById('capture'),{
+       /*     allowTaint: true,*/
+            taintTest: false,
+            useCORS:true,
+            width: w,
+            height: h,
+       /*     foreignObjectRendering: true*/
+        }).then(function(canvas) {
+            document.body.appendChild(canvas);
+            $('#capture').addClass('jieping-background-color')
+            imgd = canvas.toDataURL("image/png");
+            //imgData是当前网页的canvas对象转换成base64字符串的数据
+            imgData = imgd.replace('image/png','image/octet-stream');
+    })
+        //禁用截屏
+        $("#jieping-btn").attr("disabled",true)
+
+        //禁用保存图片地址以及保存截图
+        $(".copy_btn").attr("disabled",false)
+        $(".save_picture").attr("disabled",false);
+        $("#delete_picture-btn").attr("disabled",false);
+          alertText("截屏成功","0px","25px");
+
+        /*保存本地*/
+//        save_picture();
+
+
+    }
+
+    /***
+     * 用canvas绘制网格
+     */
+    (function(){
+        var canvas=document.querySelector('#cavsElem');
+        var ctx=canvas.getContext('2d');
+        canvas.width=600;
+        canvas.height=600;
+        canvas.style.border='1px solid green';
+        var rectH=10;
+        var rectW=20;
+        ctx.lineWidth=.5;
+        //绘制表格
+        // 第一步： 绘制横线
+        for(var i=0;i<canvas.width;i++){
+            ctx.moveTo(rectW*i,0);
+            //如果不设置moveTo，当前画笔没有位置
+            ctx.lineTo(rectW*i,canvas.height);
+        }
+        //第二步：绘制竖线：如果绘制的格子的宽高相等，可以将for循环放到一个里面；
+        for(var i=0;i<canvas.height;i++){
+            ctx.moveTo(0,rectH*i);
+            ctx.lineTo(canvas.width,rectH*i);
+        }
+        ctx.stroke();
+    }())
+    /*复制截图地址*/
+    function fuz() {
+        var Url2 = document.querySelector("#inputText");
+        Url2.value = imgd;
+        Url2.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        setTimeout("document.body.removeChild(layer)",2000)
+        alertText("复制成功","30px","25px")
+    }
+
+
+
+    /**
+     * 保存截图图片
+     */
+    function  save_picture(){
+        // 图片命名格式：1530083790335.png
+        var filename = (new Date()).getTime() + '.png';
+        saveImage(imgData,filename);
+
+
+
+
+    }
+    function saveImage(data, filename){
+        var _link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+        _link.href = data;
+        _link.download = filename;
+        save_click(_link);
+
+    };
+
+    function save_click(obj) {
+        var _event = document.createEvent("MouseEvents");
+        _event.initMouseEvent(
+                "click", true, false, window, 0, 0, 0, 0, 0
+                , false, false, false, false, 0, null
+        );
+        obj.dispatchEvent(_event);
+      /*  alertText("保存成功","50px","25px")*/
+    }
+    /**
+     * 删除截图
+     */
+    function  delete_picture(){
+      $('body').children('canvas:last-child').remove();
+        //解除禁用截屏
+        $("#jieping-btn").attr("disabled",false)
+        $('#capture').removeClass('jieping-background-color')
+
+        //禁用保存图片地址以及保存截图
+        $(".copy_btn").attr("disabled",true)
+        $(".save_picture").attr("disabled",true);
+        $("#delete_picture-btn").attr("disabled",true);
+        alertText("删除成功","220px","30px")
+
+    }
+    /**
+     * 温馨弹框提示
+     * message  显示信息
+     * leftposition 左边定位
+     * topposition 上部定位
+     *
+     */
+    function  alertText(message,leftposition,topposition){
+        var  alertText=$('.alert-text');
+        alertText.html(message);
+        if(typeof (leftposition)=="string"&&leftposition!=''){
+            alertText.css('left',leftposition)
+        }
+        if(typeof (topposition)=="string"&&topposition!=''){
+            alertText.css('top',topposition)
+        }
+        alertText.fadeIn(100)
+        setTimeout(function(){
+            alertText.fadeOut(1000)
+        },1200)
+
+    }
+
+    /*/!**
+     * 在本地进行文件保存
+     * @param  {String} data     要保存到本地的图片数据
+     * @param  {String} filename 文件名
+     *!/
+    function saveFile(data, filename) {
+        const save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+        save_link.href = data;
+        save_link.download = filename;
+
+        const event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        save_link.dispatchEvent(event);
+    }*/
+
+
+</script>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--需要下载牛牛插件https://www.imooc.com/article/23542?block_id=tuijian_wzn如果用户没有安装还需要先进行安装软件才能进行截图-->
+    <style>
+    /*    #info{
+            display: none;
+        }*/
+    </style>
+</head>
+<body>
+<a id="btnCapture" href="javascript:StartCapture()" class="btn">屏幕截图</a>
+<span id="info">正在截图中, 如果超过5秒无响应，请点此<a class="make" target="_blank" href="http://www.ggniu.cn/download/CaptureInstall.exe?" + date.getminutes() date.getseconds()>安装</a></span>
+<div style="width:100px;height:100px;background-color: red"></div>
+<div style="width:100px;height:100px;background-color: blue"></div>
+
+
+</body>
+</html>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script src="./NiuniuCapturedemo_Web_source/js/jquery.json-2.3.min.js"></script>
+<script src="./NiuniuCapturedemo_Web_source/js/niuniucapture.js"></script>
+<script src="./NiuniuCapturedemo_Web_source/js/capturewrapper.js"></script>
+<script>
+    var ctx = '${ctx}'
+    var  href="http://www.ggniu.cn/download/CaptureInstall.exe?"
+
+    $(document).ready(function() {
+        Init();
+        $('.make').click(function(e){
+            $('#info').css('display','none');
+        })
+    });
+
+    function showModalFram(){
+        if(selfConnectionState()!= 2){
+            if(confirm("您好！此功能需要截屏，需要安装截屏插件\n\n请点击确认下载并手动安装？")){
+                selfConnection();//确定截屏插件安装完成，并连接成功
+                return;
+            }else{
+                return;
+            }
+        }
+        //自定义截图，传入截图后文件名
+        StartUpdateCapture("NoNIconPicture");
+    }
+
+
+
+    function selfConnection(){
+        //获取当前牛牛截图连接状态
+        captureObj.connectHost();
+        if(selfConnectionState != 2){
+            window.location="http://www.ggniu.cn/download/CaptureInstall.exe";
+        }
+    }
+    function selfConnectionState(){
+        console.log("connectionState："+captureObj.connectState);
+        return captureObj.connectState;
+    }
+
+    //自定义截图函数
+    function StartUpdateCapture(fileName)
+    {
+        fileName = fileName+".jpg";
+        var captureRet = captureUpdate(fileName);
+        //从返回值来解析显示
+        if(captureRet == emCaptureFailed || captureRet == emCaptureUnknown) {
+            //window.location="http://www.ggniu.cn/download/CaptureInstall.exe";
+        }
+    }
+    //把牛牛截图多个模式截图方式中选择全屏截图
+    function captureUpdate(fileName){
+        return captureObj.DoCapture(fileName, 0, 1, 0, 200, 1900, 820);
+    }
+
+    //控制上传
+    function UploadCaptureData(content, localpath)
+    {
+        savedPictureContent = content;
+        //获取图片的扩展名
+        var pos = localpath.lastIndexOf('.');
+        extendName = localpath.substr(pos + 1);
+        fileName = localpath.substr(localpath.lastIndexOf('\\')+1);
+        UploadData();
+        /*$('#show').html('截图已经完成，请点击');
+         $('#show').show();
+         var autoUpload = $("#autoupload").attr("checked")=="checked" ? 1 : 0;
+         if(autoUpload)
+         {
+         UploadData();
+         }
+         else
+         {
+         $('#btnUpload').show();
+         }  */
+    }
+
+
+    /*
+     实际上传图像数据的函数，此处主要是将BASE64的图像数据，通过AJAX的方式POST到服务器保存成文件，并且显示在页面上
+     */
+    function UploadData()
+    {
+        //上传的数据除了图片外，还可以包含自己需要传递的参数
+        var data = "fileName="+fileName+"&picdata=" + savedPictureContent;
+        //获取路径中项目名称
+        ctx = ctx.replace('a','f');
+        $.ajax({
+            type: "POST",
+            url: ctx+"/station/uploadScreenshotPicture",
+            dataType: "json",
+            data: data,
+            success: function () {}});
+    }
+
+</script>
